@@ -17,8 +17,9 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str
 
-    REDIS_HOST: str = "localhost"
-    REDIS_PORT: int = 6379
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_PASSWORD: str
 
     class Config:
         env_file = ".env"

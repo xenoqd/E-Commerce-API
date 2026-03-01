@@ -13,17 +13,13 @@ class EventBus:
         self.redis = redis_client
 
     async def publish(self, event_type: str, data: dict) -> str:
-        """Публикует событие и возвращает его ID (для логирования/трассировки)"""
         payload = {
             "type": event_type,
             "ts": datetime.utcnow().isoformat(),
             "payload": json.dumps(data, ensure_ascii=False),
         }
         msg_id = await self.redis.xadd(
-            self.STREAM_NAME,
-            payload,
-            maxlen=1_000_000,
-            approximate=True
+            self.STREAM_NAME, payload, maxlen=1_000_000, approximate=True
         )
         return msg_id.decode() if isinstance(msg_id, bytes) else msg_id
 
@@ -44,7 +40,6 @@ class EventBus:
         batch_size: int = 10,
         block_ms: int = 5000,
     ):
-        """Основной consumer-цикл с обработкой и подтверждением"""
         await self.ensure_group(group_name)
 
         print(f"Consumer {consumer_name} started in group {group_name}")

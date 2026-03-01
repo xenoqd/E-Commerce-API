@@ -4,8 +4,10 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
+
 from fastapi import FastAPI
 
+from backend.db.seed import create_initial_admin
 from backend.core.config import settings
 
 
@@ -29,6 +31,9 @@ async def db_lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         class_=AsyncSession,
         expire_on_commit=False,
     )
+
+    async with session_factory() as session:
+        await create_initial_admin(session)
 
     app.state.db_engine = engine
     app.state.db_session_factory = session_factory

@@ -3,7 +3,9 @@ from fastapi import FastAPI
 
 from backend.db.init import db_lifespan
 from backend.infrastructure.redis.lifespan import redis_lifespan
-from backend.modules.users.api import register_router
+from backend.modules.auth.api import auth_router
+
+from backend.modules.products.admin_api import products_admin_api
 
 
 @asynccontextmanager
@@ -16,4 +18,7 @@ async def app_lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=app_lifespan)
-app.include_router(register_router)
+
+app.include_router(auth_router)
+
+app.include_router(products_admin_api)
