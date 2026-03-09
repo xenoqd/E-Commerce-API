@@ -11,8 +11,8 @@ class ProductCreate(BaseModel):
 
 
 class ProductSearch(BaseModel):
-    search: Optional[str]
-    min_price: Optional[float]
-    max_price: Optional[float]
+    search: Optional[str] = None
+    min_price: Optional[float] = None
+    max_price: Optional[float] = None
     page: int = 1
     limit: int = 20
