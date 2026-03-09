@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -16,3 +16,5 @@ class User(SQLModel, table=True):
 
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
     role: UserRole = Field(default=UserRole.USER)
+
+    cart: Optional["Cart"] = Relationship(back_populates="user")
