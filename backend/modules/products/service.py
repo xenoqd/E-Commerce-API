@@ -1,6 +1,6 @@
 from .repository import ProductsRepository
 from .model import Product
-from .schemas import ProductCreate
+from .schemas import ProductCreate, ProductSearch
 
 
 class ProductsService:
@@ -17,4 +17,8 @@ class ProductsService:
         )
         await self.repo.create_product(product)
 
+        return product
+
+    async def search_product(self, product_param: ProductSearch):
+        product = await self.repo.search_products(product_param)
         return product

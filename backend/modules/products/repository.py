@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
+
 from .model import Product
+from .schemas import ProductSearch
 
 
 class ProductsRepository:
@@ -18,3 +20,22 @@ class ProductsRepository:
         result = await self.session.execute(query)
         product = result.scalar_one_or_none()
         return product
+
+    async def search_products(self, product: ProductSearch):
+        query = select(Product)
+
+        if product.search:
+            query = query.where(Product.name.ilike(f"%{product.search}%"))
+
+        if product.min_price:
+            query = query.where(Product.price >= product.min_price)
+
+        if product.max_price:
+            query = query.where(Product.price <= product.max_price)
+
+        offset = (product.page - 1) * product.limit
+        query = query.offset(offset).limit(product.limit)
+
+        result = await self.session.execute(query)
+
+        return result.scalars().all()

@@ -44,7 +44,7 @@ async def get_cart(
     return cart
 
 
-@cart_router.get("/clear")
+@cart_router.post("/clear")
 async def clear_cart(  
     service: CartService = Depends(get_cart_service),
     current_user: User = Depends(get_current_user),

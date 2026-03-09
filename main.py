@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from backend.db.init import db_lifespan
 from backend.infrastructure.redis.lifespan import redis_lifespan
 
+from backend.modules.products.api import products_api
 from backend.modules.auth.api import auth_router
 from backend.modules.cart.api import cart_router
 
@@ -23,6 +24,7 @@ app = FastAPI(lifespan=app_lifespan)
 
 app.include_router(auth_router)
 app.include_router(cart_router)
+app.include_router(products_api)
 
 app.include_router(products_admin_api)
 
