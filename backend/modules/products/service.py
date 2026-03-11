@@ -1,6 +1,8 @@
+from fastapi import HTTPException, status
+
 from .repository import ProductsRepository
 from .model import Product
-from .schemas import ProductCreate, ProductSearch
+from .schemas import ProductCreate, ProductSearch, ProductEdit
 
 
 class ProductsService:
@@ -19,6 +21,34 @@ class ProductsService:
 
         return product
 
-    async def search_product(self, product_param: ProductSearch):
-        product = await self.repo.search_products(product_param)
+    async def edit_product(self, product_id: int, product_in: ProductEdit):
+
+        product = await self.repo.get_product_by_id(product_id)
+
+        if not product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found"
+            )
+
+        updated_data = product_in.model_dump(exclude_unset=True)
+
+        for field, value in updated_data.items():
+            setattr(product, field, value)
+
+        await self.repo.update(product)
+
+        return product
+
+    async def get_product_by_id(self, product_id: int):
+        product = await self.repo.get_product_by_id(product_id)
+        if not product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found"
+            )
+        return product
+
+    async def search_product(self, product_in: ProductSearch):
+        product = await self.repo.search_products(product_in)
         return product

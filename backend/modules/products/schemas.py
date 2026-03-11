@@ -16,3 +16,10 @@ class ProductSearch(BaseModel):
     max_price: Optional[float] = None
     page: int = 1
     limit: int = 20
+
+class ProductEdit(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    stock: Optional[int] = None
+    is_active: Optional[bool] = None

@@ -15,6 +15,12 @@ class ProductsRepository:
         await self.session.refresh(product)
         return product
 
+    async def update(self, product):
+        self.session.add(product)
+        await self.session.commit()
+        await self.session.refresh(product)
+        return product
+
     async def get_product_by_id(self, product_id: int):
         query = select(Product).where(Product.id == product_id)
         result = await self.session.execute(query)

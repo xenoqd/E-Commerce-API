@@ -75,16 +75,24 @@ class CartService:
         
         cart_item = await self.repo.get_cart_item(cart.id, product.id)
 
-        if cart_item:
-            new_quantity = cart_item.quantity - 1
+        if not cart_item:
+            raise HTTPException(
+                status_code=404,
+                detail="Product not in cart"
+            )
 
-        if cart_item.quantity == 0:
+        
+        new_quantity = cart_item.quantity - 1
+
+        if new_quantity < 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Cart already empty"
                 )
-
-        if cart_item:
+        
+        if new_quantity == 0:
+            await self.repo.clear_cart(cart_item.cart_id)
+        else: 
             cart_item.quantity = new_quantity
             await self.repo.update(cart_item)
 
