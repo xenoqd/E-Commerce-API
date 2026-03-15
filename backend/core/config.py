@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     REDIS_PORT: int
     REDIS_PASSWORD: str
 
+    PENDING_STATUS_UPDATE_EVERY: int = 5
+
     class Config:
         env_file = ".env"
 

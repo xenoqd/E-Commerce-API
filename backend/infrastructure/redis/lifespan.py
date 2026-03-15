@@ -14,8 +14,6 @@ async def redis_lifespan(app: FastAPI):
         db=0,
         decode_responses=False,
         password=settings.REDIS_PASSWORD
-        # retry_on_timeout=True,
-        # socket_timeout=5,
     )
 
     try:
