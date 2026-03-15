@@ -5,6 +5,9 @@ from sqlalchemy import pool
 from sqlmodel import SQLModel
 
 from backend.modules.user.models import User
+from backend.modules.order.model import Order
+from backend.modules.cart.model import Cart
+from backend.modules.products.model import Product
 
 from alembic import context
 from dotenv import load_dotenv

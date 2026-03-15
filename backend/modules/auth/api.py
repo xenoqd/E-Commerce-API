@@ -6,7 +6,7 @@ from .service import AuthService
 from .dependencies import get_auth_service
 
 
-auth_router = APIRouter(prefix="/auth")
+auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 @auth_router.post("/register", response_model=UserOut)
