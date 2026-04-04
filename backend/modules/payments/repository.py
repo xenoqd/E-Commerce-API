@@ -1,8 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlmodel import select
 
-from .model import Payment
-
+from backend.modules.payments.model import Payment
 
 class PaymentRepository:
     def __init__(self, session: AsyncSession):

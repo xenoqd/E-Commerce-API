@@ -1,7 +1,7 @@
 from celery import Celery
 from celery.schedules import crontab
 
-from ...core.config import settings
+from backend.core.config import settings
 
 
 redis_url = (

@@ -1,7 +1,7 @@
-from ..celery_app import celery_app
-
 from sqlalchemy import text
+
 from backend.db.sync_db import get_sync_engine
+from backend.infrastructure.celery.celery_app import celery_app
 
 
 @celery_app.task
@@ -20,3 +20,5 @@ def expire_orders():
                 """
             )
         )
+
+

@@ -1,13 +1,18 @@
-from ..products.repository import ProductsRepository
-from .repository import CartRepository
-from .model import Cart
+from backend.modules.products.repository import ProductsRepository
+from backend.modules.cart.repository import CartRepository
+
+from backend.modules.cart.model import Cart
+from backend.modules.cart.events import CartEvents
+
+from backend.core.event_bus import EventBus
 
 from fastapi import HTTPException, status
 
 class CartService:
-    def __init__(self, repo: CartRepository, product_repo: ProductsRepository):
+    def __init__(self, repo: CartRepository, product_repo: ProductsRepository, event_bus: EventBus ):
         self.repo = repo
         self.product_repo = product_repo
+        self.event_bus = event_bus
 
     async def get_or_create_cart(self, user_id: int):
         cart = await self.repo.get_cart_by_user_id(user_id)
@@ -55,6 +60,15 @@ class CartService:
                 product_id=product_id,
                 quantity=1
             )
+
+        await self.event_bus.publish(
+            CartEvents.ITEM_ADDED,
+            {
+                "user_id": user_id,
+                "product_id": product_id,
+                "quantity": new_quantity
+            },
+        )
         
         return {"message": "Product added to cart"}
 
@@ -96,6 +110,15 @@ class CartService:
             cart_item.quantity = new_quantity
             await self.repo.update(cart_item)
 
+        await self.event_bus.publish(
+            CartEvents.ITEM_REMOVED,
+            {
+                "user_id": user_id,
+                "product_id": product_id,
+                "quantity": new_quantity
+            },
+        )
+
         return {"message": "Product removed from card"}
 
     
@@ -129,7 +152,21 @@ class CartService:
 
     async def clear_cart(self, user_id: int):
         cart = await self.get_or_create_cart(user_id)
+        items = await self.repo.get_cart_items(cart.id)
+        if not items:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cart already empty"
+                )
 
         await self.repo.clear_cart(cart_id=cart.id)
+
+        await self.event_bus.publish(
+            CartEvents.CART_CLEARED,
+            {
+                "user_id": user_id,
+                "cart_id": cart.id
+            },
+        )
 
         return cart

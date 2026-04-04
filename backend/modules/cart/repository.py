@@ -1,8 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select, delete
-from .model import Cart, CartItem
-
 from typing import List
+
+from backend.modules.cart.model import Cart, CartItem
+
 
 class CartRepository:
     def __init__(self, session: AsyncSession):

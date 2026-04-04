@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 
-from ..auth.dependencies import get_current_user
-from ..user.models import User
+from backend.modules.auth.dependencies import get_current_user
+from backend.modules.user.models import User
 
-from .service import OrderService
-from .dependencies import get_order_service
+from backend.modules.order.service import OrderService
+from backend.modules.order.dependencies import get_order_service
 
 order_router = APIRouter(prefix="/order", tags=["Order"])
 

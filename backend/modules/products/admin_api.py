@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 
-from .schemas import ProductCreate, ProductEdit
-from .service import ProductsService
-from .dependencies import get_products_service
+from backend.modules.products.schemas import ProductCreate, ProductEdit
+from backend.modules.products.service import ProductsService
+from backend.modules.products.dependencies import get_products_service
 
-from ..auth.dependencies import get_admin_user
-from ..user.models import User
+from backend.modules.auth.dependencies import get_admin_user
+from backend.modules.user.models import User
 
 products_admin_api = APIRouter(prefix="/admin/products", tags=["Admin products"])
 

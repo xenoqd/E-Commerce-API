@@ -3,10 +3,10 @@ import uuid
 
 from fastapi import HTTPException, status
 
-from ..order.repository import OrderRepository
-from .repository import PaymentRepository
+from backend.modules.order.repository import OrderRepository
+from backend.modules.payments.repository import PaymentRepository
 
-from .model import Payment
+from backend.modules.payments.model import Payment
 
 class PaymentService:
     def __init__(self, order_repo: OrderRepository, payment_repo: PaymentRepository,):

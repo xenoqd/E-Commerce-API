@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 
-from ..auth.dependencies import get_current_user
-from ..user.models import User
+from backend.modules.auth.dependencies import get_current_user
+from backend.modules.user.models import User
 
-from .schemas import AddToCart
-from .dependencies import get_cart_service
-from .service import CartService
+from backend.modules.cart.schemas import AddToCart
+from backend.modules.cart.dependencies import get_cart_service
+from backend.modules.cart.service import CartService
 
 
 cart_router = APIRouter(prefix="/cart", tags=["Cart"])

@@ -1,8 +1,8 @@
 from fastapi import HTTPException, status
 
-from .repository import ProductsRepository
-from .model import Product
-from .schemas import ProductCreate, ProductSearch, ProductEdit
+from backend.modules.products.repository import ProductsRepository
+from backend.modules.products.model import Product
+from backend.modules.products.schemas import ProductCreate, ProductSearch, ProductEdit
 
 
 class ProductsService:

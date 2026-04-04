@@ -80,3 +80,5 @@ class EventBus:
             except Exception as e:
                 print(f"Consumer loop error: {e}")
                 await asyncio.sleep(1)
+
+

@@ -5,9 +5,9 @@ from backend.core.security.jwt import decode_access_token
 from backend.db.session import get_session
 from backend.core.event_bus import EventBus
 
-from ..user.repository import UserRepository
-from ..user.service import UserService
-from .service import AuthService
+from backend.modules.user.repository import UserRepository
+from backend.modules.user.service import UserService
+from backend.modules.auth.service import AuthService
 
 from jwt import PyJWTError
 from typing import Optional

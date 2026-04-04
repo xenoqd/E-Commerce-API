@@ -1,19 +1,18 @@
-from fastapi import Depends
+from fastapi import Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.db.session import get_session
-from .repository import OrderRepository
 
-from ..products.repository import ProductsRepository
-from ..products.repository import ProductsRepository
-from ..cart.repository import CartRepository
-
-from .service import OrderService
+from backend.modules.order.repository import OrderRepository
+from backend.modules.cart.repository import CartRepository
+from backend.modules.order.service import OrderService
 
 
 async def get_order_service(
+    request: Request,
     session: AsyncSession = Depends(get_session),
 ):
     order_repo = OrderRepository(session)
-    product_repo = ProductsRepository(session)
     cart_repo = CartRepository(session)
-    return OrderService(order_repo, cart_repo, product_repo)
+    event_bus = request.app.state.event_bus
+
+    return OrderService(order_repo, cart_repo, event_bus)

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from .schemas import ProductSearch
-from .service import ProductsService
-from .dependencies import get_products_service
+from backend.modules.products.schemas import ProductSearch
+from backend.modules.products.service import ProductsService
+from backend.modules.products.dependencies import get_products_service
 
 
 products_api = APIRouter(prefix="/products", tags=["Products"])

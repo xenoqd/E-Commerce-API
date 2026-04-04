@@ -1,15 +1,16 @@
-from .repository import UserRepository
+from fastapi import HTTPException, status
+from datetime import datetime
 
 from backend.core.event_bus import EventBus
 from backend.core.security.password import get_password_hash, verify_password
 
-from .schemas import UserCreate, UserLogin
-from .events import UserEvents
-from .models import User
+from backend.modules.user.schemas import UserCreate, UserLogin
+from backend.modules.user.events import UserEvents
+from backend.modules.user.models import User
 
-from fastapi import HTTPException, status
+from backend.modules.user.repository import UserRepository
 
-from datetime import datetime
+
 
 
 class UserService:

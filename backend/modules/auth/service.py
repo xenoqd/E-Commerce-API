@@ -1,6 +1,5 @@
-from ..user.service import UserService
-from ..user.schemas import UserCreate, UserLogin
-
+from backend.modules.user.service import UserService
+from backend.modules.user.schemas import UserCreate, UserLogin
 
 from backend.core.security.jwt import create_access_token, create_refresh_token
 from backend.core.config import settings

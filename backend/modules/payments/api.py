@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 
-from ..auth.dependencies import get_current_user
-from ..user.models import User
+from backend.modules.auth.dependencies import get_current_user
+from backend.modules.user.models import User
 
-from .service import PaymentService
-from .dependencies import get_payment_service
-from .schemas import PaymentRequest
+from backend.modules.payments.service import PaymentService
+from backend.modules.payments.dependencies import get_payment_service
+from backend.modules.payments.schemas import PaymentRequest
 
 payment_router = APIRouter(prefix="/payment", tags=["Payment"])
 

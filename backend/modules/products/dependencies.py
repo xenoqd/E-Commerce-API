@@ -1,7 +1,8 @@
 from fastapi import Depends
 from backend.db.session import get_session
-from .repository import ProductsRepository
-from .service import ProductsService
+
+from backend.modules.products.repository import ProductsRepository
+from backend.modules.products.service import ProductsService
 
 
 async def get_products_service(session=Depends(get_session)) -> ProductsService:

@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
 
-from .model import Product
-from .schemas import ProductSearch
+from backend.modules.products.model import Product
+from backend.modules.products.schemas import ProductSearch
 
 
 class ProductsRepository:

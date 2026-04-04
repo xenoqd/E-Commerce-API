@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlmodel import select
+from sqlmodel import select, update
 
-from .model import Order, OrderItem
+from backend.modules.order.model import Order, OrderItem
+
 
 class OrderRepository:
     def __init__(self, session: AsyncSession):
@@ -18,6 +19,12 @@ class OrderRepository:
         await self.session.commit()
         await self.session.refresh(order)
         return order
+
+    async def update_total_price(self, order_id: int, total_price: float):
+        query = (
+            update(Order).where(Order.id == order_id).values(total_price=total_price)
+        )
+        await self.session.execute(query)
 
     async def create_order_item(self, item: OrderItem):
         self.session.add(item)
