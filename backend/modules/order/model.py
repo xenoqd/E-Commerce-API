@@ -5,10 +5,13 @@ from enum import Enum
 
 
 class OrderStatus(str, Enum):
-    pending = "pending"
-    paid = "paid"
-    cancelled = "cancelled"
-    expired = "expired"
+    pending = "pending" # Order created, waiting to be processed
+    processing = "processing" # Worker started processing
+    confirmed = "confirmed" # Items reserved, order is ready for payment
+    paid = "paid" # Payment successfully received
+    cancelled = "cancelled" # Cancelled by user or system
+    expired = "expired" # Order expired due to time limit
+    failed ="failed" # Processing failed
 
 
 class Order(SQLModel, table=True):

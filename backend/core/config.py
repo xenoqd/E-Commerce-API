@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int
 
     DATABASE_URL: str
+    DATABASE_URL_ALEMBIC: str
 
     REDIS_HOST: str
     REDIS_PORT: int

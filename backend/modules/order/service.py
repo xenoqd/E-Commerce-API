@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from datetime import datetime, timedelta
 
-from backend.modules.order.model import Order, OrderItem
+from backend.modules.order.model import Order, OrderItem, OrderStatus
 from backend.modules.order.repository import OrderRepository
 from backend.modules.order.events import OrderEvents
 from backend.modules.cart.repository import CartRepository
@@ -65,6 +65,14 @@ class OrderService:
                 if not items:
                     raise Exception("Cart is empty")
 
+                order = await order_repo.get_order(order_id)
+
+                if order.status != OrderStatus.pending:
+                    print(f"[IDEMPOTENCY] Order {order_id} already {order.status}")
+                    return
+
+                await order_repo.update_order_status(order_id, OrderStatus.processing)
+
                 total_price = 0
 
                 for item in items:
@@ -87,10 +95,15 @@ class OrderService:
 
                 await self.cart_service.clear_cart(user_id)
 
+                await order_repo.update_order_status(order_id, OrderStatus.confirmed)
+
+                await session.commit()
+
                 print(f"[SUCCESS] Order {order_id} processed successfully")
 
             except Exception as e:
                 await session.rollback()
+                await order_repo.update_order_status(order_id, OrderStatus.failed)
                 print(f"[ERROR] Failed to process order {order_id}: {type(e).__name__} - {e}")
                 raise 
 

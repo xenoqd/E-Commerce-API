@@ -6,6 +6,7 @@ from fastapi import HTTPException, status
 from backend.modules.order.repository import OrderRepository
 from backend.modules.payments.repository import PaymentRepository
 
+from backend.modules.order.model import OrderStatus
 from backend.modules.payments.model import Payment
 
 class PaymentService:
@@ -22,7 +23,7 @@ class PaymentService:
                 detail="Order not found"
             )
 
-        if order.status != "pending":
+        if order.status != OrderStatus.confirmed:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Order already processed"
