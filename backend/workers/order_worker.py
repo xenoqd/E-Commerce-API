@@ -2,8 +2,9 @@ import asyncio
 import redis.asyncio as redis
 import traceback
 
-from backend.core.config import settings
 from backend.core.event_bus import EventBus
+from backend.core.config import settings
+
 from backend.modules.order.events import OrderEvents
 from backend.modules.order.service import OrderService
 from backend.modules.order.handlers import OrderCreatedHandler
@@ -11,6 +12,7 @@ from backend.modules.order.repository import OrderRepository
 from backend.modules.cart.repository import CartRepository
 from backend.modules.products.repository import ProductsRepository
 from backend.modules.cart.service import CartService
+
 from backend.db.sync_db import get_async_session_maker
 
 

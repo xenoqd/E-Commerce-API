@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 import redis.asyncio as redis
+
 from backend.core.config import settings
 from backend.core.event_bus import EventBus
 
