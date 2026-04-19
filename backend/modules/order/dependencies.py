@@ -4,7 +4,6 @@ import redis.asyncio as redis
 
 from backend.db.session import get_session
 
-from backend.core.idempotency.idempotency_store import IdempotencyStore
 from backend.core.config import settings
 
 from backend.modules.products.repository import ProductsRepository
@@ -34,6 +33,5 @@ async def get_order_service(
 
     cart_service = CartService(cart_repo, product_repo, event_bus)
 
-    idempotencyStore = IdempotencyStore(redis_client)
 
-    return OrderService(order_repo, cart_repo, product_repo, cart_service, event_bus, idempotencyStore)
+    return OrderService(order_repo, cart_repo, product_repo, cart_service, event_bus)
