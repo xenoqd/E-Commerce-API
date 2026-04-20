@@ -2,6 +2,8 @@
 
 E-Commerce-API is a backend API for e-commerce platformwith user authentication, shopping cart, product search.
 
+Project based on <https://roadmap.sh/projects/ecommerce-api> challenge
+
 ## How to Run the Project without Docker
 
 Requirements
